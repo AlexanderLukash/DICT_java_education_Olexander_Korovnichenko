@@ -24,18 +24,15 @@ public class ChatBot {
         System.out.println("Enter remainders of dividing your age by 3, 5 and 7.");
 
         // Вводимо числа, після того як поділимо їх на 3, 5 та 7
-        System.out.print("Remainder when divided by 3:");
-        System.out.print("> ");
+        System.out.print("Remainder when divided by 3:> ");
 
         int remainder3 = scanner.nextInt();
 
-        System.out.print("Remainder when divided by 5:");
-        System.out.print("> ");
+        System.out.print("Remainder when divided by 5:> ");
 
         int remainder5 = scanner.nextInt();
 
-        System.out.print("Remainder when divided by 7:");
-        System.out.print("> ");
+        System.out.print("Remainder when divided by 7:> ");
 
         int remainder7 = scanner.nextInt();
 
@@ -44,6 +41,16 @@ public class ChatBot {
 
         // Виводимо вгаданий вік
         System.out.println("\nYour age is " + age + "; that's a good time to start programming!");
+
+        // Виводимо числа від 0 до того числа, яке введе користувач
+        System.out.println("Now I will prove to you that I can count to any number you want!");
+        System.out.print("Enter a positive number:> ");
+        int userInput = scanner.nextInt();
+
+        // Виведення чисел від 1 до userInput
+        for (int i = 1; i <= userInput; i++) {
+            System.out.println(i + "!");
+        }
 
         scanner.close();
 
