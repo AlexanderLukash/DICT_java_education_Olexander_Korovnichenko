@@ -52,6 +52,33 @@ public class ChatBot {
             System.out.println(i + "!");
         }
 
+        boolean correctAnswer = false; // Змінна для перевірки відповіді
+
+        while (!correctAnswer) {
+            System.out.println("Let's test your programming knowledge!");
+            System.out.println("What is the output of 2 + 2?");
+            System.out.println("1. 3");
+            System.out.println("2. 4");
+            System.out.println("3. 22");
+            System.out.println("4. 5");
+
+            System.out.print("> ");
+            int answer = scanner.nextInt(); // Введення відповіді
+
+            // Перевірка відповіді
+            if (answer == 2) {
+                correctAnswer = true; // Відповідь правильна
+            } else {
+                System.out.println("Wrong answer. Please, try again.");
+            }
+        }
+
+        // Виведення повідомлення про правильну відповідь
+        System.out.println("Correct! Well done, " + yourName + "!");
+
+        // Завершення програми
+        System.out.println("Goodbye, have a nice day!");
+
         scanner.close();
 
     }
