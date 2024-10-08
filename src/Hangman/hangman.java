@@ -29,15 +29,21 @@ public class hangman {
 
             // Перевірка на валідність введення
             if (userInput.length() != 1) {
-                System.out.println("Please enter a single letter.");
+                System.out.println("You should input a single letter.");
                 continue;
             }
 
             char guessedLetter = userInput.charAt(0);
 
+            // Перевірка на введення малих англійських букв
+            if (!Character.isLowerCase(guessedLetter)) {
+                System.out.println("Please enter a lowercase English letter.");
+                continue;
+            }
+
             // Перевірка, чи буква вже була вгадана
             if (guessedChars.contains(guessedLetter)) {
-                System.out.println("No improvements");
+                System.out.println("You've already guessed this letter.");
                 continue;
             }
 
@@ -55,13 +61,13 @@ public class hangman {
             } else {
                 // Якщо буква відсутня, зменшуємо кількість спроб
                 attemptsLeft--;
-                System.out.println("That letter doesn't appear in the word");
+                System.out.println("That letter doesn't appear in the word.");
             }
 
             // Перевірка на перемогу
             if (guessedLetters.toString().equals(secretWord)) {
                 System.out.println(guessedLetters);
-                System.out.println("You guessed the word!");
+                System.out.println("You guessed the word " + secretWord + "!");
                 System.out.println("You survived!");
                 break;
             }
