@@ -1,0 +1,85 @@
+package ChatBot;
+
+import java.util.Scanner;
+
+public class ChatBot {
+    public static void main(String[] args) {
+        String botName = "DICTBot";
+        int birthYear = java.time.Year.now().getValue();
+
+        System.out.println("Hello! My name is " + botName + ".");
+        System.out.println("I was created in " + birthYear + ".");
+        System.out.println("Please, remind me your name.");
+
+        // Додаємо символ ">" для позначення введення користувачем
+        System.out.print("> ");
+
+        // Створення об'єкта для зчитування введення від користувача
+        Scanner scanner = new Scanner(System.in);
+
+        String yourName = scanner.nextLine(); // Зчитуємо ім'я користувача
+        System.out.println("What a great name you have, " + yourName + "!");
+
+        System.out.println("Let me guess your age.");
+        System.out.println("Enter remainders of dividing your age by 3, 5 and 7.");
+
+        // Вводимо числа, після того як поділимо їх на 3, 5 та 7
+        System.out.print("Remainder when divided by 3:> ");
+
+        int remainder3 = scanner.nextInt();
+
+        System.out.print("Remainder when divided by 5:> ");
+
+        int remainder5 = scanner.nextInt();
+
+        System.out.print("Remainder when divided by 7:> ");
+
+        int remainder7 = scanner.nextInt();
+
+        // Обчислюємо вік за формулою
+        int age = (remainder3 * 70 + remainder5 * 21 + remainder7 * 15) % 105;
+
+        // Виводимо вгаданий вік
+        System.out.println("\nYour age is " + age + "; that's a good time to start programming!");
+
+        // Виводимо числа від 0 до того числа, яке введе користувач
+        System.out.println("Now I will prove to you that I can count to any number you want!");
+        System.out.print("Enter a positive number:> ");
+        int userInput = scanner.nextInt();
+
+        // Виведення чисел від 1 до userInput
+        for (int i = 1; i <= userInput; i++) {
+            System.out.println(i + "!");
+        }
+
+        boolean correctAnswer = false; // Змінна для перевірки відповіді
+
+        while (!correctAnswer) {
+            System.out.println("Let's test your programming knowledge!");
+            System.out.println("What is the output of 2 + 2?");
+            System.out.println("1. 3");
+            System.out.println("2. 4");
+            System.out.println("3. 22");
+            System.out.println("4. 5");
+
+            System.out.print("> ");
+            int answer = scanner.nextInt(); // Введення відповіді
+
+            // Перевірка відповіді
+            if (answer == 2) {
+                correctAnswer = true; // Відповідь правильна
+            } else {
+                System.out.println("Wrong answer. Please, try again.");
+            }
+        }
+
+        // Виведення повідомлення про правильну відповідь
+        System.out.println("Correct! Well done, " + yourName + "!");
+
+        // Завершення програми
+        System.out.println("Goodbye, have a nice day!");
+
+        scanner.close();
+
+    }
+}
