@@ -1,5 +1,6 @@
 package Hangman;
 
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -16,8 +17,8 @@ public class hangman {
 
         // Створення масиву для збереження вгаданих букв
         StringBuilder guessedLetters = new StringBuilder("-".repeat(secretWord.length()));
-
-        int attemptsLeft = 8; // Кількість спроб
+        HashSet<Character> guessedChars = new HashSet<>(); // Множина для збереження вгаданих букв
+        int attemptsLeft = 8; // Кількість помилок, які можна допустити
 
         System.out.println("HANGMAN");
 
@@ -35,10 +36,13 @@ public class hangman {
             char guessedLetter = userInput.charAt(0);
 
             // Перевірка, чи буква вже була вгадана
-            if (guessedLetters.toString().contains(String.valueOf(guessedLetter))) {
-                System.out.println(guessedLetter + " has already been guessed.");
+            if (guessedChars.contains(guessedLetter)) {
+                System.out.println("No improvements");
                 continue;
             }
+
+            // Додаємо букву до списку вгаданих
+            guessedChars.add(guessedLetter);
 
             // Перевірка наявності букви в слові
             if (secretWord.indexOf(guessedLetter) >= 0) {
@@ -51,12 +55,13 @@ public class hangman {
             } else {
                 // Якщо буква відсутня, зменшуємо кількість спроб
                 attemptsLeft--;
-                System.out.println("That letter doesn't appear in the word.");
+                System.out.println("That letter doesn't appear in the word");
             }
 
             // Перевірка на перемогу
             if (guessedLetters.toString().equals(secretWord)) {
                 System.out.println(guessedLetters);
+                System.out.println("You guessed the word!");
                 System.out.println("You survived!");
                 break;
             }
