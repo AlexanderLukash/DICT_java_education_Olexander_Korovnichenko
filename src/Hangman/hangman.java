@@ -14,8 +14,11 @@ public class hangman {
         Random random = new Random();
         String secretWord = words[random.nextInt(words.length)];
 
+        // Створення підказки з перших двох літер та дефісів
+        String hint = secretWord.substring(0, 2) + "-".repeat(secretWord.length() - 2);
+
         System.out.println("HANGMAN");
-        System.out.print("Guess the word: > ");
+        System.out.print("Guess the word " + hint + ": > ");
         String userGuess = scanner.nextLine();
 
         // Перевірка, чи вгадав гравець слово
