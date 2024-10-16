@@ -4,51 +4,134 @@ import java.util.Scanner;
 
 public class CoffeeMachine {
 
-    private static final int WATER_PER_CUP = 200; // мл води
-    private static final int MILK_PER_CUP = 50;   // мл молока
-    private static final int COFFEE_BEANS_PER_CUP = 15; // г кавових зерен
+    // Змінні для зберігання кількості інгредієнтів і грошей
+    private int water = 400;
+    private int milk = 540;
+    private int coffeeBeans = 120;
+    private int disposableCups = 9;
+    private int money = 550;
 
-    // Метод для перевірки, скільки чашок кави можна приготувати
-    public void checkIngredients(int availableWater, int availableMilk, int availableCoffeeBeans, int requestedCups) {
-        // Розрахунок максимально можливої кількості чашок
-        int maxCupsByWater = availableWater / WATER_PER_CUP;
-        int maxCupsByMilk = availableMilk / MILK_PER_CUP;
-        int maxCupsByCoffeeBeans = availableCoffeeBeans / COFFEE_BEANS_PER_CUP;
+    // Метод для виведення поточного стану кавомашини
+    public void printState() {
+        System.out.println("The coffee machine has:");
+        System.out.println(water + " of water");
+        System.out.println(milk + " of milk");
+        System.out.println(coffeeBeans + " of coffee beans");
+        System.out.println(disposableCups + " of disposable cups");
+        System.out.println(money + " of money");
+    }
 
-        // Максимальна кількість чашок, яку можна приготувати з наявними інгредієнтами
-        int maxCups = Math.min(Math.min(maxCupsByWater, maxCupsByMilk), maxCupsByCoffeeBeans);
-
-        // Перевірка, чи достатньо інгредієнтів для приготування запитаної кількості чашок
-        if (requestedCups == 0) {
-            System.out.println("Yes, I can make that amount of coffee (and even " + maxCups + " more than that)");
-        } else if (maxCups == requestedCups) {
-            System.out.println("Yes, I can make that amount of coffee");
-        } else if (maxCups > requestedCups) {
-            System.out.println("Yes, I can make that amount of coffee (and even "
-                    + (maxCups - requestedCups) + " more than that)");
-        } else {
-            System.out.println("No, I can make only " + maxCups + " cups of coffee");
+    // Метод для покупки еспресо
+    public void buyEspresso() {
+        if (checkIngredients(250, 0, 16)) {
+            water -= 250;
+            coffeeBeans -= 16;
+            disposableCups--;
+            money += 4;
         }
+    }
+
+    // Метод для покупки лате
+    public void buyLatte() {
+        if (checkIngredients(350, 75, 20)) {
+            water -= 350;
+            milk -= 75;
+            coffeeBeans -= 20;
+            disposableCups--;
+            money += 7;
+        }
+    }
+
+    // Метод для покупки капучино
+    public void buyCappuccino() {
+        if (checkIngredients(200, 100, 12)) {
+            water -= 200;
+            milk -= 100;
+            coffeeBeans -= 12;
+            disposableCups--;
+            money += 6;
+        }
+    }
+
+    // Метод для перевірки, чи достатньо інгредієнтів
+    public boolean checkIngredients(int waterNeeded, int milkNeeded, int coffeeNeeded) {
+        if (water < waterNeeded) {
+            System.out.println("Sorry, not enough water!");
+            return false;
+        }
+        if (milk < milkNeeded) {
+            System.out.println("Sorry, not enough milk!");
+            return false;
+        }
+        if (coffeeBeans < coffeeNeeded) {
+            System.out.println("Sorry, not enough coffee beans!");
+            return false;
+        }
+        if (disposableCups < 1) {
+            System.out.println("Sorry, not enough disposable cups!");
+            return false;
+        }
+        return true;
+    }
+
+    // Метод для поповнення запасів
+    public void fill(int addedWater, int addedMilk, int addedCoffeeBeans, int addedCups) {
+        water += addedWater;
+        milk += addedMilk;
+        coffeeBeans += addedCoffeeBeans;
+        disposableCups += addedCups;
+    }
+
+    // Метод для вилучення грошей
+    public void take() {
+        System.out.println("I gave you " + money);
+        money = 0;
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CoffeeMachine coffeeMachine = new CoffeeMachine();
 
-        // Запитуємо кількість інгредієнтів у користувача
-        System.out.println("Write how many ml of water the coffee machine has:");
-        int availableWater = scanner.nextInt();
+        label:
+        while (true) {
+            coffeeMachine.printState();
+            System.out.println("Write action (buy, fill, take):");
+            String action = scanner.next();
 
-        System.out.println("Write how many ml of milk the coffee machine has:");
-        int availableMilk = scanner.nextInt();
-
-        System.out.println("Write how many grams of coffee beans the coffee machine has:");
-        int availableCoffeeBeans = scanner.nextInt();
-
-        System.out.println("Write how many cups of coffee you will need:");
-        int requestedCups = scanner.nextInt();
-
-        // Перевіряємо, скільки чашок можна приготувати
-        coffeeMachine.checkIngredients(availableWater, availableMilk, availableCoffeeBeans, requestedCups);
+            switch (action) {
+                case "buy":
+                    System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+                    String choice = scanner.next();
+                    switch (choice) {
+                        case "1" -> coffeeMachine.buyEspresso();
+                        case "2" -> coffeeMachine.buyLatte();
+                        case "3" -> coffeeMachine.buyCappuccino();
+                        case "back" -> {
+                            continue;
+                        }
+                        default -> System.out.println("Invalid choice.");
+                    }
+                    break;
+                case "fill":
+                    System.out.println("Write how many ml of water you want to add:");
+                    int addedWater = scanner.nextInt();
+                    System.out.println("Write how many ml of milk you want to add:");
+                    int addedMilk = scanner.nextInt();
+                    System.out.println("Write how many grams of coffee beans you want to add:");
+                    int addedCoffeeBeans = scanner.nextInt();
+                    System.out.println("Write how many disposable coffee cups you want to add:");
+                    int addedCups = scanner.nextInt();
+                    coffeeMachine.fill(addedWater, addedMilk, addedCoffeeBeans, addedCups);
+                    break;
+                case "take":
+                    coffeeMachine.take();
+                    break;
+                case "exit":
+                    break label;
+                default:
+                    System.out.println("Invalid action.");
+                    break;
+            }
+        }
     }
 }
