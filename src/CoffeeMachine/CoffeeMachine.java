@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class CoffeeMachine {
 
-    // Змінні для зберігання кількості інгредієнтів і грошей
     private int water = 400;
     private int milk = 540;
     private int coffeeBeans = 120;
@@ -28,6 +27,7 @@ public class CoffeeMachine {
             coffeeBeans -= 16;
             disposableCups--;
             money += 4;
+            System.out.println("I have enough resources, making you a coffee!");
         }
     }
 
@@ -39,6 +39,7 @@ public class CoffeeMachine {
             coffeeBeans -= 20;
             disposableCups--;
             money += 7;
+            System.out.println("I have enough resources, making you a coffee!");
         }
     }
 
@@ -50,6 +51,7 @@ public class CoffeeMachine {
             coffeeBeans -= 12;
             disposableCups--;
             money += 6;
+            System.out.println("I have enough resources, making you a coffee!");
         }
     }
 
@@ -94,13 +96,12 @@ public class CoffeeMachine {
 
         label:
         while (true) {
-            coffeeMachine.printState();
-            System.out.println("Write action (buy, fill, take):");
+            System.out.println("Write action (buy, fill, take, remaining, exit):");
             String action = scanner.next();
 
             switch (action) {
                 case "buy":
-                    System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+                    System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back – to main menu:");
                     String choice = scanner.next();
                     switch (choice) {
                         case "1" -> coffeeMachine.buyEspresso();
@@ -125,6 +126,9 @@ public class CoffeeMachine {
                     break;
                 case "take":
                     coffeeMachine.take();
+                    break;
+                case "remaining":
+                    coffeeMachine.printState();
                     break;
                 case "exit":
                     break label;
