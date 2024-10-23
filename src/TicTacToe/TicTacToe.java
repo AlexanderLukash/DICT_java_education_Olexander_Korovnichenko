@@ -16,84 +16,69 @@ public class TicTacToe {
         System.out.println("---------");
     }
 
-    // Метод для перевірки виграшних комбінацій
-    public static boolean checkWinner(char[][] board, char symbol) {
-        // Перевірка рядків, стовпчиків та діагоналей
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol) return true;
-            if (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol) return true;
-        }
-        if (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol) return true;
-        return board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol;
+    // Метод для оновлення поля з урахуванням ходу
+    public static String makeMove(String input, int row, int col) {
+        char[] board = input.toCharArray();
+        board[(row - 1) * 3 + (col - 1)] = 'X';
+        return String.valueOf(board);
     }
 
-    // Метод для перевірки стану гри
-    public static String analyzeGame(String input) {
-        char[][] board = new char[3][3];
-        int xCount = 0;
-        int oCount = 0;
+    // Метод для перевірки введених координат
+    public static boolean isCellOccupied(String input, int row, int col) {
+        return input.charAt((row - 1) * 3 + (col - 1)) != '_';
+    }
 
-        // Заповнюємо дошку і рахуємо кількість "X" та "O"
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = input.charAt(i * 3 + j);
-                if (board[i][j] == 'X') xCount++;
-                if (board[i][j] == 'O') oCount++;
-            }
+    // Метод для перевірки чи є введення числом
+    public static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
-
-        boolean xWins = checkWinner(board, 'X');
-        boolean oWins = checkWinner(board, 'O');
-        boolean hasEmptyCells = input.contains("_");
-
-        // Перевірка на неможливий стан гри
-        if ((xWins && oWins) || Math.abs(xCount - oCount) > 1) {
-            return "Impossible";
-        }
-
-        // Перевірка на перемогу X
-        if (xWins) {
-            return "X wins";
-        }
-
-        // Перевірка на перемогу O
-        if (oWins) {
-            return "O wins";
-        }
-
-        // Перевірка на незавершену гру
-        if (hasEmptyCells) {
-            return "Game not finished";
-        }
-
-        // Якщо всі клітинки заповнені й немає переможця
-        return "Draw";
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Введення рядка користувачем
+        // Введення ігрової сітки користувачем
         System.out.print("Enter cells: ");
         String input = scanner.nextLine();
 
-        // Перевірка довжини рядка
-        if (input.length() != 9) {
-            System.out.println("Invalid input. The input must be exactly 9 characters.");
-            return;
-        }
-
-        // Перевірка символів у рядку
-        if (!input.matches("[XO_]+")) {
-            System.out.println("Invalid input. Only characters 'X', 'O', and '_' are allowed.");
-            return;
-        }
-
-        // Виведення ігрового поля
+        // Виведення початкового поля
         printBoard(input);
 
-        // Аналіз стану гри
-        String result = analyzeGame(input);
-        System.out.println(result);
+        // Цикл для запиту координат, поки не буде введено коректні
+        while (true) {
+            System.out.print("Enter the coordinates: ");
+            String coord1 = scanner.next();
+            String coord2 = scanner.next();
+
+            // Перевірка чи введені координати є числами
+            if (!isNumber(coord1) || !isNumber(coord2)) {
+                System.out.println("You should enter numbers!");
+                continue;
+            }
+
+            int row = Integer.parseInt(coord1);
+            int col = Integer.parseInt(coord2);
+
+            // Перевірка чи координати в межах від 1 до 3
+            if (row < 1 || row > 3 || col < 1 || col > 3) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            }
+
+            // Перевірка чи клітинка зайнята
+            if (isCellOccupied(input, row, col)) {
+                System.out.println("This cell is occupied! Choose another one!");
+                continue;
+            }
+
+            // Якщо координати коректні, робимо хід і виводимо оновлене поле
+            input = makeMove(input, row, col);
+            printBoard(input);
+            break;
+        }
     }
 }
